@@ -42,34 +42,34 @@ CREATE TABLE Course (
 );
 
 CREATE TABLE Room (
-                      IdRoom INTEGER PRIMARY KEY,
-                      Number INT,
-                      Capacity INT
+                        IdRoom INTEGER PRIMARY KEY,
+                        Number INT,
+                        Capacity INT
 );
 
 CREATE TABLE Material (
-                          IdMaterial INTEGER PRIMARY KEY,
-                          Name VARCHAR(50),
-                          Type VARCHAR(20),
-                          Level VARCHAR(20)
+                        IdMaterial INTEGER PRIMARY KEY,
+                        Name VARCHAR(50),
+                        Type VARCHAR(20),
+                        Level VARCHAR(20)
 );
 
 CREATE TABLE GroupTable (
-                            IdGroup INTEGER PRIMARY KEY,
-                            IdCourse INT NOT NULL,
-                            IdTeacher INT NOT NULL,
-                            IdRoom INT NOT NULL,
-                            FOREIGN KEY (IdCourse) REFERENCES Course(IdCourse),
-                            FOREIGN KEY (IdTeacher) REFERENCES Teacher(IdTeacher),
-                            FOREIGN KEY (IdRoom) REFERENCES Room(IdRoom)
+                        IdGroup INTEGER PRIMARY KEY,
+                        IdCourse INT NOT NULL,
+                        IdTeacher INT NOT NULL,
+                        IdRoom INT NOT NULL,
+                        FOREIGN KEY (IdCourse) REFERENCES Course(IdCourse),
+                        FOREIGN KEY (IdTeacher) REFERENCES Teacher(IdTeacher),
+                        FOREIGN KEY (IdRoom) REFERENCES Room(IdRoom)
 );
 
 CREATE TABLE StudentGroup (
-                              IdStudent INT,
-                              IdGroup INT,
-                              PRIMARY KEY (IdStudent, IdGroup),
-                              FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent) ON DELETE CASCADE,
-                              FOREIGN KEY (IdGroup) REFERENCES GroupTable(IdGroup) ON DELETE CASCADE
+                        IdStudent INT,
+                        IdGroup INT,
+                        PRIMARY KEY (IdStudent, IdGroup),
+                        FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent) ON DELETE CASCADE,
+                        FOREIGN KEY (IdGroup) REFERENCES GroupTable(IdGroup) ON DELETE CASCADE
 );
 
 CREATE TABLE Lesson (
@@ -80,20 +80,20 @@ CREATE TABLE Lesson (
 );
 
 CREATE TABLE Attendance (
-                            IdStudent INT,
-                            IdLesson INT,
-                            Present BOOLEAN,
-                            PRIMARY KEY (IdStudent, IdLesson),
-                            FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent) ON DELETE CASCADE,
-                            FOREIGN KEY (IdLesson) REFERENCES Lesson(IdLesson) ON DELETE CASCADE
+                        IdStudent INT,
+                        IdLesson INT,
+                        Present BOOLEAN,
+                        PRIMARY KEY (IdStudent, IdLesson),
+                        FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent) ON DELETE CASCADE,
+                        FOREIGN KEY (IdLesson) REFERENCES Lesson(IdLesson) ON DELETE CASCADE
 );
 
 CREATE TABLE CourseMaterial (
-                                IdCourse INT,
-                                IdMaterial INT,
-                                PRIMARY KEY (IdCourse, IdMaterial),
-                                FOREIGN KEY (IdCourse) REFERENCES Course(IdCourse),
-                                FOREIGN KEY (IdMaterial) REFERENCES Material(IdMaterial)
+                        IdCourse INT,
+                        IdMaterial INT,
+                        PRIMARY KEY (IdCourse, IdMaterial),
+                        FOREIGN KEY (IdCourse) REFERENCES Course(IdCourse),
+                        FOREIGN KEY (IdMaterial) REFERENCES Material(IdMaterial)
 );
 
 CREATE TABLE Payment (
