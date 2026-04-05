@@ -1,108 +1,108 @@
 PRAGMA foreign_keys = OFF;
 
-DROP TABLE IF EXISTS Obecnosc;
-DROP TABLE IF EXISTS KursantGrupa;
-DROP TABLE IF EXISTS Platnosc;
-DROP TABLE IF EXISTS KursMaterial;
-DROP TABLE IF EXISTS Zajecia;
-DROP TABLE IF EXISTS Grupa;
-DROP TABLE IF EXISTS Kursant;
-DROP TABLE IF EXISTS Lektor;
-DROP TABLE IF EXISTS Kurs;
+DROP TABLE IF EXISTS Attendance;
+DROP TABLE IF EXISTS StudentGroup;
+DROP TABLE IF EXISTS Payment;
+DROP TABLE IF EXISTS CourseMaterial;
+DROP TABLE IF EXISTS Lesson;
+DROP TABLE IF EXISTS GroupTable;
+DROP TABLE IF EXISTS Student;
+DROP TABLE IF EXISTS Teacher;
+DROP TABLE IF EXISTS Course;
 DROP TABLE IF EXISTS Material;
-DROP TABLE IF EXISTS Sala;
+DROP TABLE IF EXISTS Room;
 
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE Kursant (
-                         IdKursant INTEGER PRIMARY KEY,
-                         Imie VARCHAR(20) NOT NULL,
-                         Nazwisko VARCHAR(20) NOT NULL,
-                         DataUrodzenia DATE,
+CREATE TABLE Student (
+                         IdStudent INTEGER PRIMARY KEY,
+                         FirstName VARCHAR(20) NOT NULL,
+                         LastName VARCHAR(20) NOT NULL,
+                         BirthDate DATE,
                          Email VARCHAR(50) UNIQUE
 );
 
-CREATE TABLE Lektor (
-                        IdLektor INTEGER PRIMARY KEY,
-                        Imie VARCHAR(20) NOT NULL,
-                        Nazwisko VARCHAR(20) NOT NULL,
-                        Specjalizacja VARCHAR(30),
-                        Doswiadczenie INT,
-                        DataZatrudnienia DATE,
-                        DataZwolnienia DATE,
-                        IdPrzelozony INT,
-                        FOREIGN KEY (IdPrzelozony) REFERENCES Lektor(IdLektor) ON DELETE SET NULL
+CREATE TABLE Teacher (
+                         IdTeacher INTEGER PRIMARY KEY,
+                         FirstName VARCHAR(20) NOT NULL,
+                         LastName VARCHAR(20) NOT NULL,
+                         Specialization VARCHAR(30),
+                         Experience INT,
+                         HireDate DATE,
+                         FireDate DATE,
+                         SupervisorId INT,
+                         FOREIGN KEY (SupervisorId) REFERENCES Teacher(IdTeacher) ON DELETE SET NULL
 );
 
-CREATE TABLE Kurs (
-                        IdKurs INTEGER PRIMARY KEY,
-                        Nazwa VARCHAR(50) NOT NULL,
-                        Poziom VARCHAR(20),
-                        Jezyk VARCHAR(20)
+CREATE TABLE Course (
+                        IdCourse INTEGER PRIMARY KEY,
+                        Name VARCHAR(50) NOT NULL,
+                        Level VARCHAR(20),
+                        Language VARCHAR(20)
 );
 
-CREATE TABLE Sala (
-                        IdSala INTEGER PRIMARY KEY,
-                        Numer INT,
-                        MaxKursantow INT
+CREATE TABLE Room (
+                      IdRoom INTEGER PRIMARY KEY,
+                      Number INT,
+                      Capacity INT
 );
 
 CREATE TABLE Material (
-                        IdMaterial INTEGER PRIMARY KEY,
-                        Nazwa VARCHAR(50),
-                        Typ VARCHAR(20),
-                        Poziom VARCHAR(20)
+                          IdMaterial INTEGER PRIMARY KEY,
+                          Name VARCHAR(50),
+                          Type VARCHAR(20),
+                          Level VARCHAR(20)
 );
 
-CREATE TABLE Grupa (
-                       IdGrupa INTEGER PRIMARY KEY,
-                       IdKurs INT NOT NULL,
-                       IdLektor INT NOT NULL,
-                       IdSala INT NOT NULL,
-                       FOREIGN KEY (IdKurs) REFERENCES Kurs(IdKurs),
-                       FOREIGN KEY (IdLektor) REFERENCES Lektor(IdLektor),
-                       FOREIGN KEY (IdSala) REFERENCES Sala(IdSala)
+CREATE TABLE GroupTable (
+                            IdGroup INTEGER PRIMARY KEY,
+                            IdCourse INT NOT NULL,
+                            IdTeacher INT NOT NULL,
+                            IdRoom INT NOT NULL,
+                            FOREIGN KEY (IdCourse) REFERENCES Course(IdCourse),
+                            FOREIGN KEY (IdTeacher) REFERENCES Teacher(IdTeacher),
+                            FOREIGN KEY (IdRoom) REFERENCES Room(IdRoom)
 );
 
-CREATE TABLE KursantGrupa (
-                        IdKursant INT,
-                        IdGrupa INT,
-                        PRIMARY KEY (IdKursant, IdGrupa),
-                        FOREIGN KEY (IdKursant) REFERENCES Kursant(IdKursant) ON DELETE CASCADE,
-                        FOREIGN KEY (IdGrupa) REFERENCES Grupa(IdGrupa) ON DELETE CASCADE
+CREATE TABLE StudentGroup (
+                              IdStudent INT,
+                              IdGroup INT,
+                              PRIMARY KEY (IdStudent, IdGroup),
+                              FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent) ON DELETE CASCADE,
+                              FOREIGN KEY (IdGroup) REFERENCES GroupTable(IdGroup) ON DELETE CASCADE
 );
 
-CREATE TABLE Zajecia (
-                        IdZajecia INTEGER PRIMARY KEY,
-                        IdGrupa INT NOT NULL,
-                        Data DATE,
-                        FOREIGN KEY (IdGrupa) REFERENCES Grupa(IdGrupa) ON DELETE CASCADE
+CREATE TABLE Lesson (
+                        IdLesson INTEGER PRIMARY KEY,
+                        IdGroup INT NOT NULL,
+                        Date DATE,
+                        FOREIGN KEY (IdGroup) REFERENCES GroupTable(IdGroup) ON DELETE CASCADE
 );
 
-CREATE TABLE Obecnosc (
-                        IdKursant INT,
-                        IdZajecia INT,
-                        Obecny BOOLEAN,
-                        PRIMARY KEY (IdKursant, IdZajecia),
-                        FOREIGN KEY (IdKursant) REFERENCES Kursant(IdKursant) ON DELETE CASCADE,
-                        FOREIGN KEY (IdZajecia) REFERENCES Zajecia(IdZajecia) ON DELETE CASCADE
+CREATE TABLE Attendance (
+                            IdStudent INT,
+                            IdLesson INT,
+                            Present BOOLEAN,
+                            PRIMARY KEY (IdStudent, IdLesson),
+                            FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent) ON DELETE CASCADE,
+                            FOREIGN KEY (IdLesson) REFERENCES Lesson(IdLesson) ON DELETE CASCADE
 );
 
-CREATE TABLE KursMaterial (
-                        IdKurs INT,
-                        IdMaterial INT,
-                        PRIMARY KEY (IdKurs, IdMaterial),
-                        FOREIGN KEY (IdKurs) REFERENCES Kurs(IdKurs),
-                        FOREIGN KEY (IdMaterial) REFERENCES Material(IdMaterial)
+CREATE TABLE CourseMaterial (
+                                IdCourse INT,
+                                IdMaterial INT,
+                                PRIMARY KEY (IdCourse, IdMaterial),
+                                FOREIGN KEY (IdCourse) REFERENCES Course(IdCourse),
+                                FOREIGN KEY (IdMaterial) REFERENCES Material(IdMaterial)
 );
 
-CREATE TABLE Platnosc (
-                        IdPlatnosc INTEGER PRIMARY KEY,
-                        IdKursant INT,
-                        IdKurs INT,
-                        Kwota DECIMAL(10,2),
-                        Data DATE,
-                        Status VARCHAR(20),
-                        FOREIGN KEY (IdKursant) REFERENCES Kursant(IdKursant),
-                        FOREIGN KEY (IdKurs) REFERENCES Kurs(IdKurs)
+CREATE TABLE Payment (
+                         IdPayment INTEGER PRIMARY KEY,
+                         IdStudent INT,
+                         IdCourse INT,
+                         Amount DECIMAL(10,2),
+                         Date DATE,
+                         Status VARCHAR(20),
+                         FOREIGN KEY (IdStudent) REFERENCES Student(IdStudent),
+                         FOREIGN KEY (IdCourse) REFERENCES Course(IdCourse)
 );

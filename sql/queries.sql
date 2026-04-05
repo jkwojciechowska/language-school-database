@@ -1,64 +1,64 @@
-SELECT COUNT(*) AS LiczbaKursantow FROM Kursant;
+SELECT COUNT(*) AS StudentCount FROM Student;
 
-SELECT k.Imie, k.Nazwisko, c.Nazwa AS Kurs
-FROM Kursant k
-         JOIN KursantGrupa kg ON k.IdKursant = kg.IdKursant
-         JOIN Grupa g ON kg.IdGrupa = g.IdGrupa
-         JOIN Kurs c ON g.IdKurs = c.IdKurs;
+SELECT s.FirstName, s.LastName, c.Name AS Course
+FROM Student s
+         JOIN StudentGroup sg ON s.IdStudent = sg.IdStudent
+         JOIN GroupTable g ON sg.IdGroup = g.IdGroup
+         JOIN Course c ON g.IdCourse = c.IdCourse;
 
-SELECT k.Imie, k.Nazwisko,
-       COUNT(o.Obecny) AS LiczbaZajec,
-       SUM(o.Obecny) AS Obecnosci
-FROM Kursant k
-         JOIN Obecnosc o ON k.IdKursant = o.IdKursant
-GROUP BY k.IdKursant, k.Imie, k.Nazwisko;
+SELECT s.FirstName, s.LastName,
+       COUNT(a.Present) AS TotalClasses,
+       SUM(a.Present) AS Attendances
+FROM Student s
+         JOIN Attendance a ON s.IdStudent = a.IdStudent
+GROUP BY s.IdStudent, s.FirstName, s.LastName;
 
-SELECT l.Imie, l.Nazwisko, c.Nazwa
-FROM Lektor l
-         JOIN Grupa g ON l.IdLektor = g.IdLektor
-         JOIN Kurs c ON g.IdKurs = c.IdKurs;
+SELECT t.FirstName, t.LastName, c.Name
+FROM Teacher t
+         JOIN GroupTable g ON t.IdTeacher = g.IdTeacher
+         JOIN Course c ON g.IdCourse = c.IdCourse;
 
-SELECT k.Imie, k.Nazwisko
-FROM Kursant k
-         JOIN KursantGrupa kg ON k.IdKursant = kg.IdKursant
-WHERE kg.IdGrupa = 1;
+SELECT s.FirstName, s.LastName
+FROM Student s
+         JOIN StudentGroup sg ON s.IdStudent = sg.IdStudent
+WHERE sg.IdGroup = 1;
 
-SELECT k.Imie, k.Nazwisko, o.Obecny
-FROM Obecnosc o
-         JOIN Kursant k ON o.IdKursant = k.IdKursant
-WHERE o.IdZajecia = 1;
+SELECT s.FirstName, s.LastName, a.Present
+FROM Attendance a
+         JOIN Student s ON a.IdStudent = s.IdStudent
+WHERE a.IdLesson = 1;
 
-SELECT c.Nazwa
-FROM Kurs c
-         JOIN Platnosc p ON c.IdKurs = p.IdKurs
-WHERE p.IdKursant = 1;
+SELECT c.Name
+FROM Course c
+         JOIN Payment p ON c.IdCourse = p.IdCourse
+WHERE p.IdStudent = 1;
 
-SELECT p.Kwota, p.Status, c.Nazwa
-FROM Platnosc p
-         JOIN Kurs c ON p.IdKurs = c.IdKurs;
+SELECT p.Amount, p.Status, c.Name
+FROM Payment p
+         JOIN Course c ON p.IdCourse = c.IdCourse;
 
-SELECT m.Nazwa, m.Typ
+SELECT m.Name, m.Type
 FROM Material m
-         JOIN KursMaterial km ON m.IdMaterial = km.IdMaterial
-WHERE km.IdKurs = 1;
+         JOIN CourseMaterial cm ON m.IdMaterial = cm.IdMaterial
+WHERE cm.IdCourse = 1;
 
-SELECT l.Imie, l.Nazwisko, g.IdGrupa
-FROM Lektor l
-         JOIN Grupa g ON l.IdLektor = g.IdLektor;
+SELECT t.FirstName, t.LastName, g.IdGroup
+FROM Teacher t
+         JOIN GroupTable g ON t.IdTeacher = g.IdTeacher;
 
-SELECT k.Imie, k.Nazwisko
-FROM Kursant k
-         LEFT JOIN Platnosc p ON k.IdKursant = p.IdKursant
-WHERE p.Status IS NULL OR p.Status = 'nieoplacone';
+SELECT s.FirstName, s.LastName
+FROM Student s
+         LEFT JOIN Payment p ON s.IdStudent = p.IdStudent
+WHERE p.Status IS NULL OR p.Status = 'unpaid';
 
-SELECT k.Imie, k.Nazwisko,
-       ROUND(AVG(o.Obecny) * 100, 2) AS Frekwencja
-FROM Kursant k
-         JOIN Obecnosc o ON k.IdKursant = o.IdKursant
-GROUP BY k.IdKursant, k.Imie, k.Nazwisko
-ORDER BY Frekwencja DESC;
+SELECT s.FirstName, s.LastName,
+       ROUND(AVG(a.Present) * 100, 2) AS AttendancePercentage
+FROM Student s
+         JOIN Attendance a ON s.IdStudent = a.IdStudent
+GROUP BY s.IdStudent, s.FirstName, s.LastName
+ORDER BY AttendancePercentage DESC;
 
-SELECT c.Nazwa
-FROM Kurs c
-         LEFT JOIN KursMaterial km ON c.IdKurs = km.IdKurs
-WHERE km.IdMaterial IS NULL;
+SELECT c.Name
+FROM Course c
+         LEFT JOIN CourseMaterial cm ON c.IdCourse = cm.IdCourse
+WHERE cm.IdMaterial IS NULL;
