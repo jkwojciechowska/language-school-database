@@ -14,3 +14,6 @@ Projekt bazy danych dla szkoły językowej.
 - schema.sql
 - erd.png
 - queries.sql
+
+## Autorka
+Julia Wojciechowska
