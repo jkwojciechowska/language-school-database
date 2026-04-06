@@ -7,25 +7,17 @@ INSERT INTO Student (IdStudent, FirstName, LastName, BirthDate, Email) VALUES (5
 INSERT INTO Teacher (IdTeacher, FirstName, LastName, Specialization, Experience, HireDate, FireDate, SupervisorId)
 VALUES (1, 'Karolina', 'Wójcik', 'English', 5, '2024-09-01', NULL, NULL);
 
-INSERT INTO Teacher VALUES (2, 'Michał', 'Banaś', 'Spanish', 9, '2019-09-01', NULL, 1);
-INSERT INTO Teacher VALUES (3, 'Aleksandra', 'Wierzbicka', 'German', 2, '2024-09-01', NULL, 1);
-
-INSERT INTO Course (IdCourse, Name, Level, Language)
-VALUES (1, 'English C1', 'C1', 'English');
-
-INSERT INTO Room (IdRoom, Number, Capacity)
-VALUES (1, 201, 15);
-
-INSERT INTO Material (IdMaterial, Name, Type, Level)
-VALUES (1, 'Grammar basics', 'presentation', 'C1');
+INSERT INTO Teacher (IdTeacher, FirstName, LastName, Specialization, Experience, HireDate, FireDate, SupervisorId) VALUES (2, 'Michał', 'Banaś', 'Spanish', 9, '2019-09-01', NULL, 1);
+INSERT INTO Teacher (IdTeacher, FirstName, LastName, Specialization, Experience, HireDate, FireDate, SupervisorId) VALUES (3, 'Aleksandra', 'Wierzbicka', 'German', 2, '2024-09-01', NULL, 1);
+INSERT INTO Course (IdCourse, Name, Level, Language) VALUES (1, 'English C1', 'C1', 'English');
+INSERT INTO Room (IdRoom, Number, Capacity) VALUES (1, 201, 15);
+INSERT INTO Material (IdMaterial, Name, Type, Level) VALUES (1, 'Grammar basics', 'presentation', 'C1');
 
 INSERT INTO Material VALUES (2, 'Audio dialogues', 'audio', 'C1');
 
-INSERT INTO GroupTable (IdGroup, IdCourse, IdTeacher, IdRoom)
-VALUES (1, 1, 1, 1);
+INSERT INTO GroupTable (IdGroup, IdCourse, IdTeacher, IdRoom) VALUES (1, 1, 1, 1);
 
-INSERT INTO Lesson (IdLesson, IdGroup, Date)
-VALUES (1, 1, '2026-04-01');
+INSERT INTO Lesson (IdLesson, IdGroup, Date) VALUES (1, 1, '2026-04-01');
 
 INSERT INTO StudentGroup VALUES (1, 1);
 INSERT INTO StudentGroup VALUES (2, 1);
