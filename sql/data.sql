@@ -4,9 +4,7 @@ INSERT INTO Student (IdStudent, FirstName, LastName, BirthDate, Email) VALUES (3
 INSERT INTO Student (IdStudent, FirstName, LastName, BirthDate, Email) VALUES (4, 'Zuzanna', 'Lew', '2008-12-02', 'z.lew@mail.com');
 INSERT INTO Student (IdStudent, FirstName, LastName, BirthDate, Email) VALUES (5, 'Ewelina', 'Skrzypecka', '2006-03-17', 'e.skrzypecka@mail.com');
 
-INSERT INTO Teacher (IdTeacher, FirstName, LastName, Specialization, Experience, HireDate, FireDate, SupervisorId)
-VALUES (1, 'Karolina', 'Wójcik', 'English', 5, '2024-09-01', NULL, NULL);
-
+INSERT INTO Teacher (IdTeacher, FirstName, LastName, Specialization, Experience, HireDate, FireDate, SupervisorId) VALUES (1, 'Karolina', 'Wójcik', 'English', 5, '2024-09-01', NULL, NULL);
 INSERT INTO Teacher (IdTeacher, FirstName, LastName, Specialization, Experience, HireDate, FireDate, SupervisorId) VALUES (2, 'Michał', 'Banaś', 'Spanish', 9, '2019-09-01', NULL, 1);
 INSERT INTO Teacher (IdTeacher, FirstName, LastName, Specialization, Experience, HireDate, FireDate, SupervisorId) VALUES (3, 'Aleksandra', 'Wierzbicka', 'German', 2, '2024-09-01', NULL, 1);
 INSERT INTO Course (IdCourse, Name, Level, Language) VALUES (1, 'English C1', 'C1', 'English');
